@@ -1,0 +1,33 @@
+{
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": "integer"
+        },
+        "info": {
+            "type": "object"
+        },
+        "tags": {
+            "type": "array",
+            "items": {}
+        },
+        "text": {
+            "type": "string"
+        },
+        "updated_by": {
+            "type": "string"
+        },
+        "url": {
+            "type": "string",
+            "format": "uri"
+        }
+    },
+    "required": [
+        "id",
+        "info",
+        "tags",
+        "text",
+        "updated_by",
+        "url"
+    ]
+}
