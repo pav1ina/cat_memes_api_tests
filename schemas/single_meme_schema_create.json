@@ -1,0 +1,25 @@
+{
+    "type": "object",
+    "properties": {
+        "info": {
+            "type": "object"
+        },
+        "tags": {
+            "type": "array",
+            "items": {}
+        },
+        "text": {
+            "type": "string"
+        },
+        "url": {
+            "type": "string",
+            "format": "uri"
+        }
+    },
+    "required": [
+        "info",
+        "tags",
+        "text",
+        "url"
+    ]
+}
