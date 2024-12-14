@@ -45,7 +45,7 @@ class Endpoint:
         assert self.meme_tags == expected_tags, 'Meme tags are incorrect'
 
     def check_that_url_is_correct(self, expected_url):
-        assert self.meme_url == expected_url, 'Meme info is incorrect'
+        assert self.meme_url == expected_url, 'Meme url is incorrect'
 
     def check_that_updated_by_is_correct(self, expected_updated_by_name):
         assert self.meme_updated_by == expected_updated_by_name, 'Updated by name is incorrect'
