@@ -80,6 +80,11 @@ TEST_DATA_NEGATIVE = [
 def test_create_one_meme_positive(create_test_meme, cleanup_memes, data, single_meme_schema):
     create_test_meme.create_meme(payload=data)
     create_test_meme.check_that_status_code_is_200()
+    create_test_meme.check_that_text_is_correct(expected_text=create_test_meme.meme_text)
+    create_test_meme.check_that_info_is_correct(expected_info=create_test_meme.meme_info)
+    create_test_meme.check_that_tags_are_correct(expected_tags=create_test_meme.meme_tags)
+    create_test_meme.check_that_url_is_correct(expected_url=create_test_meme.meme_url)
+    create_test_meme.check_that_updated_by_is_correct(expected_updated_by_name=create_test_meme.authorization_user)
     jsonschema.validate(instance=create_test_meme.response_payload, schema=single_meme_schema)
     cleanup_memes.append(create_test_meme.meme_id)
 
@@ -195,6 +200,7 @@ def test_retrieve_one_meme_positive(create_test_meme, get_one_meme, single_meme_
     jsonschema.validate(instance=create_test_meme.response_payload, schema=single_meme_schema_get)
     get_one_meme.retrieve_meme(create_test_meme.meme_id)
     get_one_meme.check_that_status_code_is_200()
+    get_one_meme.check_that_id_is_correct(expected_id=create_test_meme.meme_id)
     get_one_meme.check_that_text_is_correct(create_test_meme.meme_text)
     get_one_meme.check_that_info_is_correct(create_test_meme.meme_info)
     get_one_meme.check_that_tags_are_correct(create_test_meme.meme_tags)
@@ -232,7 +238,7 @@ def test_update_meme_negative(create_meme_for_test_then_delete, update_meme, dat
 
 
 @allure.title('test delete one meme positive')
-def test_delete_one_meme_positive(create_test_meme, delete_test_meme):
+def test_delete_one_meme_positive(create_test_meme, delete_test_meme, get_one_meme):
     create_test_meme.create_meme(payload={
         "info": {
             "colors": [
@@ -252,6 +258,8 @@ def test_delete_one_meme_positive(create_test_meme, delete_test_meme):
     })
     delete_test_meme.delete_one_meme(meme_id=create_test_meme.meme_id)
     delete_test_meme.check_that_status_code_is_200()
+    get_one_meme.retrieve_meme(meme_id=create_test_meme.meme_id)
+    get_one_meme.check_that_status_code_is_404()
 
 
 @allure.title('test delete non-existing meme')
