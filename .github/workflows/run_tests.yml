@@ -47,7 +47,7 @@ jobs:
         run: |
           wget https://github.com/allure-framework/allure2/releases/download/2.24.1/allure-2.24.1.tgz
           tar -xzvf allure-2.24.1.tgz
-          sudo mv allure-2.20.1 /opt/allure
+          sudo mv allure-2.24.1 /opt/allure
           export PATH=/opt/allure/bin:$PATH
       - name: Generate Allure report
         run: allure generate allure-results --clean
