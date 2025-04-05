@@ -1,6 +1,7 @@
 import pytest
 
 
+@pytest.mark.smoke
 def test_authorization_successful(authorize_verification):
     authorize_verification.authorize(name='tester authorized')
     authorize_verification.check_authorization_token(expected_token=authorize_verification.authorization_token)
@@ -9,11 +10,13 @@ def test_authorization_successful(authorize_verification):
     authorize_verification.check_that_status_code_is_200()
 
 
+@pytest.mark.regression
 def test_authorization_negative(authorize_verification):
     authorize_verification.authorize(name=None)
     authorize_verification.check_that_status_code_is_400()
 
 
+@pytest.mark.regression
 def test_validate_token_negative(authorize_verification):
     authorize_verification.validate_token(token=12345678)
     authorize_verification.check_that_status_code_is_404()
