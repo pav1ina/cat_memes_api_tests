@@ -3,6 +3,7 @@ import allure
 import jsonschema
 
 
+@pytest.mark.smoke
 @allure.title('Test retrieve all available memes')
 def test_get_all_memes_positive(gel_all_memes, list_meme_schema):
     gel_all_memes.retrieve_memes()
@@ -75,6 +76,7 @@ TEST_DATA_NEGATIVE = [
 ]
 
 
+@pytest.mark.smoke
 @allure.title('Test create one meme with valid data')
 @pytest.mark.parametrize('data', TEST_DATA_POSITIVE)
 def test_create_one_meme_positive(create_test_meme, cleanup_memes, data, single_meme_schema):
@@ -89,6 +91,7 @@ def test_create_one_meme_positive(create_test_meme, cleanup_memes, data, single_
     cleanup_memes.append(create_test_meme.meme_id)
 
 
+@pytest.mark.regression
 @allure.title('Test attempt to create one meme with invalid data')
 @pytest.mark.parametrize('data', TEST_DATA_NEGATIVE)
 def test_create_one_meme_negative(create_test_meme, cleanup_memes, data):
@@ -178,6 +181,7 @@ TEST_DATA_UPDATE_NEGATIVE = [
 ]
 
 
+@pytest.mark.smoke
 @allure.title('Test retrieve one meme')
 def test_retrieve_one_meme_positive(create_test_meme, get_one_meme, single_meme_schema_get, cleanup_memes):
     create_test_meme.create_meme(payload={
@@ -208,12 +212,14 @@ def test_retrieve_one_meme_positive(create_test_meme, get_one_meme, single_meme_
     cleanup_memes.append(get_one_meme.meme_id)
 
 
+@pytest.mark.regression
 @allure.title('Test retrieve meme with nonexistent id')
 def test_retrieve_one_meme_negative(get_one_meme):
     get_one_meme.retrieve_meme(meme_id=9999999)
     get_one_meme.check_that_status_code_is_404()
 
 
+@pytest.mark.smoke
 @allure.title('Test update meme with valid data')
 @pytest.mark.parametrize('data', TEST_DATA_UPDATE_POSITIVE)
 def test_update_meme_positive(create_meme_for_test_then_delete, update_meme, data):
@@ -228,6 +234,7 @@ def test_update_meme_positive(create_meme_for_test_then_delete, update_meme, dat
     update_meme.check_that_tags_are_correct(expected_tags=update_meme.meme_tags)
 
 
+@pytest.mark.regression
 @allure.title('Test update meme with invalid data')
 @pytest.mark.parametrize('data', TEST_DATA_UPDATE_NEGATIVE)
 def test_update_meme_negative(create_meme_for_test_then_delete, update_meme, data):
@@ -237,6 +244,7 @@ def test_update_meme_negative(create_meme_for_test_then_delete, update_meme, dat
     update_meme.check_that_status_code_is_400()
 
 
+@pytest.mark.smoke
 @allure.title('test delete one meme positive')
 def test_delete_one_meme_positive(create_test_meme, delete_test_meme, get_one_meme):
     create_test_meme.create_meme(payload={
@@ -262,6 +270,7 @@ def test_delete_one_meme_positive(create_test_meme, delete_test_meme, get_one_me
     get_one_meme.check_that_status_code_is_404()
 
 
+@pytest.mark.regression
 @allure.title('test delete non-existing meme')
 def test_delete_meme_negative(delete_test_meme):
     delete_test_meme.delete_one_meme(meme_id=12345678)
