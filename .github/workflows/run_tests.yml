@@ -48,9 +48,9 @@ jobs:
           wget https://github.com/allure-framework/allure2/releases/download/2.24.1/allure-2.24.1.tgz
           tar -xzvf allure-2.24.1.tgz
           sudo mv allure-2.24.1 /opt/allure
-          export PATH=/opt/allure/bin:$PATH
+          echo "/opt/allure/bin" >> $GITHUB_PATH
       - name: Generate Allure report
-        run: allure generate -c allure-results -o allure-report
+        run: allure generate --clean -o allure-report allure-results
       - name: Publish Allure report
         uses: actions/upload-artifact@v4
         with:
