@@ -50,10 +50,25 @@ jobs:
           sudo mv allure-2.24.1 /opt/allure
           echo "/opt/allure/bin" >> $GITHUB_PATH
       - name: Generate Allure report
-        run: allure generate --clean -o allure-report allure-results
+        run: allure generate --clean -o _site
       - name: Publish Allure report
         uses: actions/upload-artifact@v4
         with:
-          name: allure-report
-          path: allure-report
+          name: _site
+          path: _site
           retention-days: 1
+          
+  publish-report:
+    name: Report publication
+    runs-on: ubuntu-latest
+    needs: run-tests
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+      - name: upload pages artifact
+        uses: actions/upload-pages-artifact@v3
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-page@v4
+      
+      
